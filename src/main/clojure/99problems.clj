@@ -33,13 +33,17 @@
     :else (kth (- k 1) (rest lst))))
 
 ;; P05
-;; This is not good; results in dreaded stack overflow error for large lists
 
 (defn my-reverse [lst]
-  (defn helper [tmp retval]
+  (loop [tmp lst
+         retval []]
     (if (empty? tmp)
       retval
-      (helper (rest tmp) (concat (list (first tmp)) retval))))
-  (helper lst []))
+      (recur (rest tmp) (concat (list (first tmp)) retval)))))
 
+
+;; P06
+
+(defn palindrome? [lst]
+  (= lst (my-reverse lst)))
 
