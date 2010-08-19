@@ -1,7 +1,4 @@
-;; TODO
-;;
-;; Need to namespace these functions
-;; NEED UNIT TESTS!1!!!
+(ns quephird.99problems)
 
 ;; P01
 
