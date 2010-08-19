@@ -12,17 +12,17 @@
 
 ;; P04
 
-(defn my-length [coll]
+(defn length [coll]
   (if (empty? coll)
       0
-      (+ 1 (my-length (rest coll)))))
+      (+ 1 (length (rest coll)))))
 
 ;; P02
 
 (defn last-but-one [coll]
   (cond 
-    (< (my-length coll) 2) nil
-    (= (my-length coll) 2) (first coll)
+    (< (length coll) 2) nil
+    (= (length coll) 2) (first coll)
     :else (last-but-one (rest coll))))
 
 
@@ -30,7 +30,7 @@
 
 (defn kth [k coll]
   (cond
-    (> k (my-length coll)) nil
+    (> k (length coll)) nil
     (= 0 k) (first coll)
     :else (kth (- k 1) (rest coll))))
 
