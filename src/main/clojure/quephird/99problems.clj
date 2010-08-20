@@ -60,15 +60,29 @@
         (cons x (flatten xs))))))
 
 ;; P08
-;; Ugh... this works but it is ugly.
 
 (defn remove-consec-dups [coll]
-  (loop [xs coll
+  (loop [[x & xs] coll
          prev-x nil
          retval []]
-    (if (empty? xs)
+    (if (nil? x)
       retval
-      (if (= (first xs) prev-x)
-        (recur (rest xs) (first xs) retval)
-        (recur (rest xs) (first xs) (conj retval (first xs)))))))
+      (if (= x prev-x)
+        (recur xs x retval)
+        (recur xs x (conj retval x))))))
 
+;; P09
+;; This is horrible, but it works
+
+(defn pack-consec-dups [coll]
+  (loop [[x & xs] coll
+         dup-xs []
+         retval []]
+    (if (nil? x)
+      (conj retval dup-xs)
+      (if (= x (first dup-xs))
+        (recur xs (conj dup-xs x) retval)
+        (if (empty? dup-xs)
+          (recur xs [x] retval)
+          (recur xs [x] (conj retval dup-xs))
+)))))
