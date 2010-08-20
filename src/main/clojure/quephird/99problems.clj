@@ -89,6 +89,7 @@
 )))))
 
 ;; P10
+
 (defn run-length-encode [coll]
   (let [pcd (pack-consec-dups coll)]
     (loop [[x & xs] pcd
@@ -96,3 +97,33 @@
       (if (empty? x)
         retval
         (recur xs (conj retval [(length x) (first x)]))))))
+
+;; P11
+
+(defn run-length-encode-mod [coll]
+  (let [pcd (pack-consec-dups coll)]
+    (loop [[x & xs] pcd
+           retval []]
+      (if (empty? x)
+        retval
+        (if (= (length x) 1)
+          (recur xs (conj retval (first x)))
+          (recur xs (conj retval [(length x) (first x)])))))))
+
+;; P12
+
+(defn duplicate-n-times [n elt]
+    (loop [i n dups []]
+      (if (= i 0)
+        dups
+        (recur (- i 1) (conj dups elt)))))
+
+(defn run-length-decode [coll]
+  (loop [[x & xs] coll
+         retval []]
+    (if (nil? x)
+      retval
+      (if (coll? x)
+        (recur xs (concat retval (duplicate-n-times (first x) (first (rest x)))))
+        (recur xs (concat retval [x]))))))
+

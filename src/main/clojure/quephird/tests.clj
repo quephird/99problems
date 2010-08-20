@@ -37,8 +37,19 @@
 )
 
 (deftest test-pack-consec-dups
-  (testing "Packing consecutive duplicates from empty list should result in empty list"
-    (is (empty? (pack-consec-dups '()))))
-  (testing "Packing consecutive duplicates from simple list should result in list of lists"
+  (testing "Packing list with no duplicates should result in list of lists each with one element"
     (is (= '((1) (2) (3)) (pack-consec-dups '(1 2 3)))))
+  (testing "Packing list with one element repeated should result in list containing the same list"
+    (is (= '((a a a a)) (pack-consec-dups '(a a a a)))))
+  (testing "Packing '(a a a b c c d d d d) should result in '((a a a) (b) (c c) (d d d d))"
+    (is (= '((a a a) (b) (c c) (d d d d)) (pack-consec-dups '(a a a b c c d d d d)))))
+)
+
+(deftest test-run-length-encode
+  (testing "RLE'ing of list with no duplicates should result in list of lists each of form '(1 foo)"
+    (is (= '((1 a) (1 b) (1 c)) (run-length-encode '(a b c)))))
+  (testing "RLE'ing list with one element repeated n times should result in list containing one element of the form '(n foo)"
+    (is (= '((4 a)) (run-length-encode '(a a a a)))))
+  (testing "RLE'ing '(a a a b c c d d d d) should result in '((3 a) (1 b) (2 c) (4 d))"
+    (is (= '((3 a) (1 b) (2 c) (4 d)) (run-length-encode '(a a a b c c d d d d)))))
 )
