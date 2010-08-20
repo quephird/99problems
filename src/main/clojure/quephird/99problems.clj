@@ -73,6 +73,7 @@
 
 ;; P09
 ;; This is horrible, but it works
+;; NOTE TO SELF... Need to look at this in the future
 
 (defn pack-consec-dups [coll]
   (loop [[x & xs] coll
@@ -86,3 +87,12 @@
           (recur xs [x] retval)
           (recur xs [x] (conj retval dup-xs))
 )))))
+
+;; P10
+(defn run-length-encode [coll]
+  (let [pcd (pack-consec-dups coll)]
+    (loop [[x & xs] pcd
+           retval []]
+      (if (empty? x)
+        retval
+        (recur xs (conj retval [(length x) (first x)]))))))
