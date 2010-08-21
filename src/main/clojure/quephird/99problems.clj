@@ -112,7 +112,7 @@
 
 ;; P12
 
-(defn duplicate-n-times [n elt]
+(defn duplicate-n-times [elt n]
     (loop [i n dups []]
       (if (= i 0)
         dups
@@ -124,6 +124,48 @@
     (if (nil? x)
       retval
       (if (coll? x)
-        (recur xs (concat retval (duplicate-n-times (first x) (first (rest x)))))
+        (recur xs (concat retval (duplicate-n-times (first (rest x)) (first x))))
         (recur xs (concat retval [x]))))))
 
+;; P14
+
+(defn duplicate-all-elts [coll]
+  (loop [[x & xs] coll
+         retval []]
+    (if (nil? x)
+      retval
+      (recur xs (conj retval x x)))))
+
+;; P15
+
+(defn duplicate-all-elts-n-times [coll n]
+  (loop [[x & xs] coll
+         retval []]
+    (if (nil? x)
+      retval
+      (recur xs (concat retval (duplicate-n-times x n))))))
+
+;; P16
+
+(defn drop-every-nth [coll n]
+  (loop [[x & xs] coll
+         ctr 1
+         retval []]
+    (if (nil? x)
+      retval
+      (if (= ctr n)
+        (recur xs 1 retval)
+        (recur xs (+ ctr 1) (conj retval x))
+        ))))
+
+;; P17
+
+(defn split [coll n]
+  (loop [[x & xs] coll
+           ctr 1
+           prev-xs []]
+    (if (nil? x)
+      [prev-xs []]
+      (if (= ctr n)
+        [(conj prev-xs x) xs]
+        (recur xs (+ ctr 1) (conj prev-xs x))))))
